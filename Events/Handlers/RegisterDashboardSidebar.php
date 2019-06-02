@@ -16,13 +16,23 @@ class RegisterDashboardSidebar extends AbstractAdminSidebar
     public function extendWith(Menu $menu)
     {
         $menu->group(trans('dashboard::dashboard.name'), function (Group $group) {
-            $group->weight(0);
+            $group->weight(-10000);
             $group->hideHeading();
+
+
 
             $group->item(trans('dashboard::dashboard.name'), function (Item $item) {
                 $item->icon('fa fa-dashboard');
                 $item->route('dashboard.index');
                 $item->isActiveWhen(route('dashboard.index', null, false));
+                $item->authorize(
+                    $this->auth->hasAccess('dashboard.index')
+                );
+            });
+            $group->item(_ths('Advanced Admin'), function (Item $item) {
+                $item->icon('fa fa-dashboard');
+                $item->url('/admin');
+               
                 $item->authorize(
                     $this->auth->hasAccess('dashboard.index')
                 );
